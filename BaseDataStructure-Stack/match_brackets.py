@@ -15,6 +15,7 @@
 3. if )、]、} 则从栈顶取一个元素进行比较;
     if 配对成功, 那么pop后 重复, 直到所有的字符比较结束, 栈是一个空栈: 返回 True
     else: 返回False
+4. 漏掉了一个情况, 栈中元素全部被取出为空, 但是字符串中仍然有)、}、]的字符;
 
 """
 from pythonds import Stack
@@ -27,15 +28,18 @@ def valid_parentheses(s: str) -> bool:
         if char in ["(", "[", "{"]:
             stack.push(char)
         else:
-            v = stack.peek()
-            if v == "(" and char == ")":
-                stack.pop()
-            elif v == "[" and char == "]":
-                stack.pop()
-            elif v == "{" and char == "}":
-                stack.pop()
-            else:
+            if stack.is_empty():
                 return False
+            else:
+                v = stack.peek()
+                if v == "(" and char == ")":
+                    stack.pop()
+                elif v == "[" and char == "]":
+                    stack.pop()
+                elif v == "{" and char == "}":
+                    stack.pop()
+                else:
+                    return False
     else:
         if stack.is_empty():
             return True
